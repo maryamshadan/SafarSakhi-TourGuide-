@@ -1,0 +1,12 @@
+{
+  "name": "TourGuide",
+  "description": "TourGuide: Intelligent travel companion for Telangana heritage exploration and evidence-aware safe navigation with verified safe havens, active journey check-ins, and emergency assistance.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="TourGuide" />
+    
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='white' stroke='%23E2E8F0' stroke-width='2'/%3E%3Cpath d='M50 25C54.4183 25 58 28.5817 58 33C58 37.4183 54.4183 41 50 41C45.5817 41 42 37.4183 42 33C42 28.5817 45.5817 25 50 25Z' fill='%232563EB'/%3E%3Cpath d='M30 65C30 53.9543 38.9543 45 50 45C61.0457 45 70 53.9543 70 65V70H30V65Z' fill='%232563EB'/%3E%3Cpath d='M68 20C68 13.3726 62.6274 8 56 8C49.3726 8 44 13.3726 44 20C44 26.6274 56 38 56 38C56 38 68 26.6274 68 20Z' fill='%23F97316'/%3E%3Ccircle cx='56' cy='20' r='4' fill='white'/%3E%3Cpath d='M25 65C25 65 35 55 50 55C65 55 75 65 75 65C75 65 65 85 50 85C35 85 25 65 25 65Z' fill='%2310B981' fillOpacity='0.9'/%3E%3Cpath d='M50 85C35 85 22 75 22 75V80C22 80 35 92 50 92C65 92 78 80 78 80V75C78 75 65 85 50 85Z' fill='%23059669'/%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='white'/%3E%3Cpath d='M50 25C54.4 25 58 28.6 58 33C58 37.4 54.4 41 50 41C45.6 41 42 37.4 42 33C42 28.6 45.6 25 50 25Z' fill='%232563EB'/%3E%3Cpath d='M30 65C30 54 39 45 50 45C61 45 70 54 70 65V70H30V65Z' fill='%232563EB'/%3E%3Cpath d='M68 20C68 13.4 62.6 8 56 8C49.4 8 44 13.4 44 20C44 26.6 56 38 56 38S68 26.6 68 20Z' fill='%23F97316'/%3E%3C/svg%3E" />
+
+    <title>TourGuide — Heritage Exploration & Safe Navigation</title>
+    <meta name="description" content="TourGuide: Intelligent travel companion for Telangana heritage exploration and evidence-aware safe navigation with verified safe havens, active journey check-ins, and emergency assistance." />
+    <meta property="og:title" content="TourGuide — Heritage Exploration & Safe Navigation" />
+    <meta property="og:description" content="TourGuide: Intelligent travel companion for Telangana heritage exploration and evidence-aware safe navigation with verified safe havens, active journey check-ins, and emergency assistance." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#eff6ff',
+                100: '#dbeafe',
+                200: '#bfdbfe',
+                300: '#93c5fd',
+                400: '#60a5fa',
+                500: '#3b82f6',
+                600: '#2563EB',
+                700: '#1d4ed8',
+                800: '#1e40af',
+                900: '#1e3a8a',
+                950: '#172554',
+              },
+              accent: {
+                500: '#F97316',
+                600: '#EA580C',
+                400: '#FB923C',
+              },
+              nature: {
+                500: '#10B981',
+                600: '#059669',
+              },
+              sepia: {
+                100: '#fdf6e3',
+                200: '#eee8d5',
+                800: '#5b4636',
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              serif: ['Merriweather', 'serif'],
+            },
+            animation: {
+              'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'float': 'float 3s ease-in-out infinite',
+              'slide-up': 'slideUp 0.3s ease-out forwards',
+              'fade-in': 'fadeIn 0.2s ease-out forwards',
+              'wiggle': 'wiggle 0.5s ease-in-out infinite',
+              'scan-line': 'scan 3s linear infinite',
+              'spin-slow': 'spin 8s linear infinite',
+              'bounce-subtle': 'bounce-subtle 2s ease-in-out infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-5px)' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(100%)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              wiggle: {
+                '0%, 100%': { transform: 'rotate(-3deg)' },
+                '50%': { transform: 'rotate(3deg)' },
+              },
+              scan: {
+                '0%': { top: '0%', opacity: '0.2' },
+                '50%': { top: '100%', opacity: '0.8' },
+                '100%': { top: '0%', opacity: '0.2' },
+              },
+              'bounce-subtle': {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-3px)' },
+              }
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      body { background-color: #F8FAFC; color: #1E293B; overscroll-behavior-y: contain; }
+      .leaflet-container { font-family: 'Inter', sans-serif; z-index: 0; background: #e2e8f0; width: 100%; height: 100%; }
+      .custom-marker-icon { background: transparent; border: none; transition: transform 0.2s ease-out; }
+      .custom-marker-icon:hover { transform: scale(1.1) translateY(-2px); z-index: 1000 !important; }
+      .dark .leaflet-container { background: #0f172a; }
+      .leaflet-control-attribution { 
+        font-size: 9px !important; 
+        background: rgba(255, 255, 255, 0.85) !important; 
+        backdrop-filter: blur(4px); 
+        padding: 2px 6px !important; 
+        border-radius: 6px;
+        margin-right: 6px !important;
+        margin-bottom: 4px !important;
+      }
+      .dark .leaflet-control-attribution { 
+        background: rgba(15, 23, 42, 0.85) !important; 
+        color: #94a3b8 !important; 
+      }
+      .dark .leaflet-control-attribution a { 
+        color: #60a5fa !important; 
+      }
+      
+      .ar-hud-bracket { width: 30px; height: 30px; border: 2px solid rgba(255,255,255,0.4); position: absolute; }
+      .ar-hud-tl { top: 20%; left: 10%; border-right: 0; border-bottom: 0; }
+      .ar-hud-tr { top: 20%; right: 10%; border-left: 0; border-bottom: 0; }
+      .ar-hud-bl { bottom: 20%; left: 10%; border-right: 0; border-top: 0; }
+      .ar-hud-br { bottom: 20%; right: 10%; border-left: 0; border-top: 0; }
+
+      .marker-pulse { 
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        border-radius: 100%;
+        background: rgba(37, 99, 235, 0.4);
+        animation: marker-pulse-anim 2s infinite;
+        z-index: -1;
+      }
+      @keyframes marker-pulse-anim {
+        0% { transform: scale(1); opacity: 0.8; }
+        100% { transform: scale(2); opacity: 0; }
+      }
+      .perspective-1000 { perspective: 1000px; }
+      .preserve-3d { transform-style: preserve-3d; }
+      .rotate-x-10 { transform: rotateX(10deg); }
+      .ar-node-shadow { box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.1); }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0/",
+    "firebase/app": "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js",
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js",
+    "firebase/": "https://aistudiocdn.com/firebase@^12.6.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
